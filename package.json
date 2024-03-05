@@ -1,0 +1,16 @@
+{
+  "name": "ddd-clean-architecture",
+  "version": "1.0.0",
+  "description": "Design Diridigo à Domínio -> Como vamos desenhar a aplicação. Não está relacionado como será implementado, mas como converter o problema do cliente em algo palpável. Um Software que resolve o problema do cliente.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}
+  
