@@ -18,10 +18,7 @@ Uma área de entendimento -> todas as pessoas envolvidas na construção do soft
 
 # Sistema de Fórum
 
-Conversa:
-
-    - Muita dificuldade em saber as *dúvidas* dos *alunos*
-    - Eu tenho que responder os alunos e eu me perco em quais dúvidas já foram respondidas
+Conversa: - Muita dificuldade em saber as _dúvidas_ dos _alunos_ - Eu tenho que responder os alunos e eu me perco em quais dúvidas já foram respondidas
 
 ### Entidades (Entities)
 
