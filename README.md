@@ -18,7 +18,7 @@ Uma área de entendimento -> todas as pessoas envolvidas na construção do soft
 
 # Sistema de Fórum
 
-Conversa: - Muita dificuldade em saber as _dúvidas_ dos _alunos_ - Eu tenho que responder os alunos e eu me perco em quais dúvidas já foram respondidas
+Conversa: - Muita dificuldade em _saber_ as _dúvidas_ dos _alunos_ - Eu tenho que _responder_ os alunos e eu me perco em quais dúvidas já foram respondidas
 
 ### Entidades (Entities)
 
@@ -31,3 +31,7 @@ Entidades são as palavras chaves que são coisas palpáveis.
 São como as entidades conversam entre si.
 
 - Saber, responder, etc.
+
+### Value Objects
+
+Classes que representam um valor que é importante para o domínio, mas que não possui uma identidade própria. Basicamente um objeto que é definido pelos seus atributos, em vez de ser definido por uma identidade exclusiva.
