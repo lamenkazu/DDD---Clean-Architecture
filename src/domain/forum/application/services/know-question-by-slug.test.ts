@@ -16,6 +16,8 @@ describe("Know Question By Slug", () => {
       title: "Example Question",
     });
 
+    console.log(testQuestion);
+
     await inMemoryQuestionsRepo.create(testQuestion);
 
     const { question } = await sut.execute({
