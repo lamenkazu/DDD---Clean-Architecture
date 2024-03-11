@@ -1,5 +1,4 @@
 import { InMemoryQuestionRepository } from "test/repositories/in-memory-questions-repository";
-import { KnowQuestionBySlugService } from "./know-question-by-slug";
 import { makeQuestion } from "test/factories/make-question";
 import { DeleteQuestionService } from "./delete-question";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
