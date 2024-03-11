@@ -1,8 +1,6 @@
-import { CreateQuestionService } from "./create-question";
 import { InMemoryQuestionRepository } from "test/repositories/in-memory-questions-repository";
 import { KnowQuestionBySlugService } from "./know-question-by-slug";
-import { Question } from "../../enterprise/entities/question";
-import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+import { makeQuestion } from "test/factories/make-question";
 
 let inMemoryQuestionsRepo: InMemoryQuestionRepository;
 let sut: KnowQuestionBySlugService;
@@ -14,10 +12,8 @@ describe("Know Question By Slug", () => {
   });
 
   it("should be able to know a question by slug", async () => {
-    const testQuestion = Question.create({
-      authorId: new UniqueEntityId(),
-      content: "fakecontent",
-      title: "example question",
+    const testQuestion = makeQuestion({
+      title: "Example Question",
     });
 
     await inMemoryQuestionsRepo.create(testQuestion);
