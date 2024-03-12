@@ -1,3 +1,4 @@
+import { Question } from "../../enterprise/entities/question";
 import { QuestionsRepository } from "../repositories/questions-repository";
 
 interface EditQuestionServiceRequest {
@@ -7,7 +8,9 @@ interface EditQuestionServiceRequest {
   content: string;
 }
 
-interface EditQuestionServiceResponse {}
+interface EditQuestionServiceResponse {
+  question: Question;
+}
 
 export class EditQuestionService {
   constructor(private questionRepo: QuestionsRepository) {}
@@ -30,6 +33,8 @@ export class EditQuestionService {
 
     await this.questionRepo.update(question);
 
-    return {};
+    return {
+      question,
+    };
   }
 }

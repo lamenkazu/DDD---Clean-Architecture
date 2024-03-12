@@ -21,4 +21,10 @@ export class InMemoryAnswersRepository implements AnswerRepository {
 
     this.items.splice(itemIndex, 1);
   }
+
+  async update(answer: Answer) {
+    const itemIndex = this.items.findIndex((item) => item.id === answer.id);
+
+    this.items[itemIndex] = answer;
+  }
 }
