@@ -1,3 +1,4 @@
+import { PaginationParams } from "@/core/repositories/pagination-params";
 import { AnswerRepository } from "@/domain/forum/application/repositories/answers-repository";
 import { Answer } from "@/domain/forum/enterprise/entities/answer";
 
@@ -14,6 +15,16 @@ export class InMemoryAnswersRepository implements AnswerRepository {
     if (!answer) return null;
 
     return answer;
+  }
+
+  async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
+    const MAX_ITEMS_PER_PAGE = 20;
+
+    const answers = this.items
+      .filter((item) => item.questionId.toString() === questionId)
+      .slice((page - 1) * MAX_ITEMS_PER_PAGE, page * MAX_ITEMS_PER_PAGE);
+
+    return answers;
   }
 
   async delete(answer: Answer): Promise<void> {
