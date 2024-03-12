@@ -1,9 +1,11 @@
-import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-repository";
+//Factories
 import { makeAnswer } from "test/factories/make-answer";
-import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+import { makeQuestion } from "test/factories/make-question";
+
+import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-repository";
 import { InMemoryQuestionRepository } from "test/repositories/in-memory-questions-repository";
 import { ChooseBestAnswerService } from "./choose-best-answer";
-import { makeQuestion } from "test/factories/make-question";
+import { UniqueEntityId } from "@/core/entities/unique-entity-id";
 
 let inMemoryQuestionsRepo: InMemoryQuestionRepository;
 let inMemoryAnswersRepo: InMemoryAnswersRepository;
