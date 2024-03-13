@@ -1,11 +1,13 @@
+import { Either, left, right } from "@/core/either";
 import { AnswerRepository } from "../repositories/answers-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface DeleteAnswerServiceRequest {
   authorId: string;
   answerId: string;
 }
 
-interface DeleteAnswerServiceResponse {}
+type DeleteAnswerServiceResponse = Either<ResourceNotFoundError, {}>;
 
 export class DeleteAnswerService {
   constructor(private answerRepo: AnswerRepository) {}
@@ -16,12 +18,12 @@ export class DeleteAnswerService {
   }: DeleteAnswerServiceRequest): Promise<DeleteAnswerServiceResponse> {
     const answer = await this.answerRepo.findById(answerId);
 
-    if (!answer) throw new Error("Answer not found.");
+    if (!answer) return left(new ResourceNotFoundError());
 
     if (authorId !== answer.authorId.toString()) throw new Error("Not allowed");
 
     await this.answerRepo.delete(answer);
 
-    return {};
+    return right({});
   }
 }
