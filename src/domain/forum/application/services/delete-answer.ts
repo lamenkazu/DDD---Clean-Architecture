@@ -1,6 +1,7 @@
 import { Either, left, right } from "@/core/either";
 import { AnswerRepository } from "../repositories/answers-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { NotAllowedError } from "./errors/not-allowed-error";
 
 interface DeleteAnswerServiceRequest {
   authorId: string;
@@ -20,7 +21,8 @@ export class DeleteAnswerService {
 
     if (!answer) return left(new ResourceNotFoundError());
 
-    if (authorId !== answer.authorId.toString()) throw new Error("Not allowed");
+    if (authorId !== answer.authorId.toString())
+      return left(new NotAllowedError());
 
     await this.answerRepo.delete(answer);
 

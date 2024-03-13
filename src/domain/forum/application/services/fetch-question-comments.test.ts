@@ -33,12 +33,12 @@ describe("Fetch Question Comments", () => {
       })
     );
 
-    const { questionComments } = await sut.execute({
+    const result = await sut.execute({
       questionId: testQuestionId,
       page: 1,
     });
 
-    expect(questionComments).toHaveLength(3);
+    expect(result.value?.questionComments).toHaveLength(3);
   });
 
   it("should be able to fetch paginted question questionComments", async () => {
@@ -57,13 +57,13 @@ describe("Fetch Question Comments", () => {
       page: 1,
     });
 
-    expect(page1.questionComments).toHaveLength(20);
+    expect(page1.value?.questionComments).toHaveLength(20);
 
     const page2 = await sut.execute({
       questionId: testQuestionId,
       page: 2,
     });
 
-    expect(page2.questionComments).toHaveLength(2);
+    expect(page2.value?.questionComments).toHaveLength(2);
   });
 });

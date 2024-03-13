@@ -20,11 +20,11 @@ describe("Know Question By Slug", () => {
 
     await inMemoryQuestionsRepo.create(testQuestion);
 
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       slug: "example-question",
     });
 
-    expect(question.id).toBeTruthy();
-    expect(inMemoryQuestionsRepo.items[0].title).toEqual(testQuestion.title);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryQuestionsRepo.items[0].title).toEqual("Example Question");
   });
 });

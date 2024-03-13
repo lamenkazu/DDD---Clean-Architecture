@@ -33,12 +33,12 @@ describe("Fetch Answer Comments", () => {
       })
     );
 
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: testAnswerId,
       page: 1,
     });
 
-    expect(answerComments).toHaveLength(3);
+    expect(result.value?.answerComments).toHaveLength(3);
   });
 
   it("should be able to fetch paginted answer comments", async () => {
@@ -57,13 +57,13 @@ describe("Fetch Answer Comments", () => {
       page: 1,
     });
 
-    expect(page1.answerComments).toHaveLength(20);
+    expect(page1.value?.answerComments).toHaveLength(20);
 
     const page2 = await sut.execute({
       answerId: testAnswerId,
       page: 2,
     });
 
-    expect(page2.answerComments).toHaveLength(2);
+    expect(page2.value?.answerComments).toHaveLength(2);
   });
 });
