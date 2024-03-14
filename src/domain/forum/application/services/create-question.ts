@@ -3,6 +3,7 @@ import { QuestionsRepository } from "../repositories/questions-repository";
 import { Question } from "../../enterprise/entities/question";
 import { Either, right } from "@/core/either";
 import { QuestionAttachment } from "../../enterprise/entities/question-attachment";
+import { QuestionAttachmentList } from "../../enterprise/entities/question-attachment-list";
 
 interface CreateQuestionServiceRequest {
   authorId: string;
@@ -39,7 +40,7 @@ export class CreateQuestionService {
         questionId: question.id,
       });
     });
-    question.attachments = questionAttachments;
+    question.attachments = new QuestionAttachmentList(questionAttachments);
 
     await this.questionRepo.create(question);
 
