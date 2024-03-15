@@ -4,7 +4,7 @@ import { makeQuestionComment } from "test/factories/make-question-comment";
 import { InMemoryQuestionCommentsRepository } from "test/repositories/in-memory-question-comments-repository";
 import { DeleteQuestionCommentService } from "./delete-question-comment";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
-import { NotAllowedError } from "./errors/not-allowed-error";
+import { NotAllowedError } from "@/core/errors/errors/not-allowed-error";
 
 let inMemoryQuestionCommentsRepo: InMemoryQuestionCommentsRepository;
 let sut: DeleteQuestionCommentService;
