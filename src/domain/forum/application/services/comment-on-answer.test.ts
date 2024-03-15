@@ -4,14 +4,19 @@ import { makeAnswer } from "test/factories/make-answer";
 import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-repository";
 import { CommentOnAnswerService } from "./comment-on-answer";
 import { InMemoryAnswerCommentsRepository } from "test/repositories/in-memory-answer-comments-repository";
+import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository";
 
+let inMemoryAnswerAttachsRepo: InMemoryAnswerAttachmentsRepository;
 let inMemoryAnswersRepo: InMemoryAnswersRepository;
 let inMemoryAnswerCommentsRepo: InMemoryAnswerCommentsRepository;
 let sut: CommentOnAnswerService;
 
 describe("Comment on Answer", () => {
   beforeEach(() => {
-    inMemoryAnswersRepo = new InMemoryAnswersRepository();
+    inMemoryAnswerAttachsRepo = new InMemoryAnswerAttachmentsRepository();
+    inMemoryAnswersRepo = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachsRepo
+    );
     inMemoryAnswerCommentsRepo = new InMemoryAnswerCommentsRepository();
 
     sut = new CommentOnAnswerService(

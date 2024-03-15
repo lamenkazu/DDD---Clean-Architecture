@@ -3,11 +3,16 @@ import { Answer } from "../../enterprise/entities/answer";
 import { AnswerRepository } from "../repositories/answers-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 import { NotAllowedError } from "./errors/not-allowed-error";
+import { AnswerAttachmentList } from "../../enterprise/entities/answer-attachment-list";
+import { AnswerAttachment } from "../../enterprise/entities/answer-attachment";
+import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+import { AnswerAttachmentsRepository } from "../repositories/answer-attachments-repository";
 
 interface EditAnswerServiceRequest {
   authorId: string;
   answerId: string;
   content: string;
+  attachmentsIds: string[];
 }
 
 type EditAnswerServiceResponse = Either<
@@ -18,12 +23,16 @@ type EditAnswerServiceResponse = Either<
 >;
 
 export class EditAnswerService {
-  constructor(private answerRepo: AnswerRepository) {}
+  constructor(
+    private answerRepo: AnswerRepository,
+    private answerAttachsRepo: AnswerAttachmentsRepository
+  ) {}
 
   async execute({
     authorId,
     answerId,
     content,
+    attachmentsIds,
   }: EditAnswerServiceRequest): Promise<EditAnswerServiceResponse> {
     const answer = await this.answerRepo.findById(answerId);
 
@@ -31,6 +40,24 @@ export class EditAnswerService {
 
     if (authorId !== answer.authorId.toString())
       return left(new NotAllowedError());
+
+    const currentAnswerAttachments =
+      await this.answerAttachsRepo.findManyByAnswerId(answerId);
+
+    const answerAttachmentList = new AnswerAttachmentList(
+      currentAnswerAttachments
+    );
+
+    const updatedAnswerAttachments = attachmentsIds.map((id) => {
+      return AnswerAttachment.create({
+        attachmentId: new UniqueEntityId(id),
+        answerId: answer.id,
+      });
+    });
+
+    answerAttachmentList.update(updatedAnswerAttachments);
+
+    answer.attachments = answerAttachmentList;
 
     answer.content = content;
 

@@ -1,15 +1,25 @@
-import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-repository";
-import { makeAnswer } from "test/factories/make-answer";
 import { DeleteAnswerService } from "./delete-answer";
+
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+
+import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-repository";
+import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository";
+
+import { makeAnswer } from "test/factories/make-answer";
+import { makeAnswerAttachment } from "test/factories/make-answer-attachment";
+
 import { NotAllowedError } from "./errors/not-allowed-error";
 
 let inMemoryAnswersRepo: InMemoryAnswersRepository;
+let inMemoryAnswerAttachsRepo: InMemoryAnswerAttachmentsRepository;
 let sut: DeleteAnswerService;
 
 describe("Delete Answer", () => {
   beforeEach(() => {
-    inMemoryAnswersRepo = new InMemoryAnswersRepository();
+    inMemoryAnswerAttachsRepo = new InMemoryAnswerAttachmentsRepository();
+    inMemoryAnswersRepo = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachsRepo
+    );
     sut = new DeleteAnswerService(inMemoryAnswersRepo);
   });
 
@@ -26,12 +36,25 @@ describe("Delete Answer", () => {
 
     await inMemoryAnswersRepo.create(testAnswer);
 
+    //Cria attachments para a resposta
+    inMemoryAnswerAttachsRepo.items.push(
+      makeAnswerAttachment({
+        answerId: testAnswer.id,
+        attachmentId: new UniqueEntityId("1"),
+      }),
+      makeAnswerAttachment({
+        answerId: testAnswer.id,
+        attachmentId: new UniqueEntityId("2"),
+      })
+    );
+
     await sut.execute({
       authorId: testAuthorId,
       answerId: testAnswerId,
     });
 
     expect(inMemoryAnswersRepo.items).toHaveLength(0);
+    expect(inMemoryAnswerAttachsRepo.items).toHaveLength(0);
   });
 
   it("should not be able to delete a answer from another user", async () => {
