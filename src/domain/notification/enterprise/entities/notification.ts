@@ -2,7 +2,7 @@ import { Optional } from "@/core/@types/optional";
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
 
-interface NotificationProps {
+export interface NotificationProps {
   recipientId: UniqueEntityId;
   title: string;
   content: string;
@@ -24,6 +24,10 @@ export class Notification extends Entity<NotificationProps> {
     );
 
     return notification;
+  }
+
+  read() {
+    this.props.readAt = new Date();
   }
 
   get recipientId() {
