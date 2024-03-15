@@ -3,13 +3,20 @@ import { makeQuestion } from "test/factories/make-question";
 import { DeleteQuestionService } from "./delete-question";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
 import { NotAllowedError } from "./errors/not-allowed-error";
+import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository";
+import { makeQuestionAttachment } from "test/factories/make-question-attachment";
 
 let inMemoryQuestionsRepo: InMemoryQuestionRepository;
+let inMemoryQuestionAttachsRepo: InMemoryQuestionAttachmentsRepository;
 let sut: DeleteQuestionService;
 
 describe("Delete Question", () => {
   beforeEach(() => {
-    inMemoryQuestionsRepo = new InMemoryQuestionRepository();
+    inMemoryQuestionAttachsRepo = new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepo = new InMemoryQuestionRepository(
+      inMemoryQuestionAttachsRepo
+    );
+
     sut = new DeleteQuestionService(inMemoryQuestionsRepo);
   });
 
@@ -24,9 +31,19 @@ describe("Delete Question", () => {
       new UniqueEntityId(testQuestionId)
     );
 
-    console.log(testQuestion);
-
     await inMemoryQuestionsRepo.create(testQuestion);
+
+    //Cria attachments para a questão
+    inMemoryQuestionAttachsRepo.items.push(
+      makeQuestionAttachment({
+        questionId: testQuestion.id,
+        attachmentId: new UniqueEntityId("1"),
+      }),
+      makeQuestionAttachment({
+        questionId: testQuestion.id,
+        attachmentId: new UniqueEntityId("2"),
+      })
+    );
 
     await sut.execute({
       authorId: testAuthorId,
@@ -34,6 +51,7 @@ describe("Delete Question", () => {
     });
 
     expect(inMemoryQuestionsRepo.items).toHaveLength(0);
+    expect(inMemoryQuestionAttachsRepo.items).toHaveLength(0);
   });
 
   it("should not be able to delete a question from another user", async () => {
@@ -47,8 +65,6 @@ describe("Delete Question", () => {
       },
       new UniqueEntityId(testQuestionId)
     );
-
-    console.log(testQuestion);
 
     await inMemoryQuestionsRepo.create(testQuestion);
 

@@ -12,8 +12,10 @@ let sut: EditQuestionService;
 
 describe("Edit Question", () => {
   beforeEach(() => {
-    inMemoryQuestionsRepo = new InMemoryQuestionRepository();
     inMemoryQuestionAttachsRepo = new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepo = new InMemoryQuestionRepository(
+      inMemoryQuestionAttachsRepo
+    );
     sut = new EditQuestionService(
       inMemoryQuestionsRepo,
       inMemoryQuestionAttachsRepo
@@ -78,8 +80,6 @@ describe("Edit Question", () => {
       },
       new UniqueEntityId(testQuestionId)
     );
-
-    console.log(testQuestion);
 
     await inMemoryQuestionsRepo.create(testQuestion);
 

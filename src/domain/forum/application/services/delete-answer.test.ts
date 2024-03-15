@@ -24,8 +24,6 @@ describe("Delete Answer", () => {
       new UniqueEntityId(testAnswerId)
     );
 
-    console.log(testAnswer);
-
     await inMemoryAnswersRepo.create(testAnswer);
 
     await sut.execute({
@@ -47,8 +45,6 @@ describe("Delete Answer", () => {
       },
       new UniqueEntityId(testAnswerId)
     );
-
-    console.log(testAnswer);
 
     await inMemoryAnswersRepo.create(testAnswer);
 

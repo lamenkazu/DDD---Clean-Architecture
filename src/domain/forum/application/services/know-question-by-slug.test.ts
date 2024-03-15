@@ -1,13 +1,18 @@
 import { InMemoryQuestionRepository } from "test/repositories/in-memory-questions-repository";
 import { KnowQuestionBySlugService } from "./know-question-by-slug";
 import { makeQuestion } from "test/factories/make-question";
+import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository";
 
 let inMemoryQuestionsRepo: InMemoryQuestionRepository;
+let inMemoryQuestionAttachsRepo: InMemoryQuestionAttachmentsRepository;
 let sut: KnowQuestionBySlugService;
 
 describe("Know Question By Slug", () => {
   beforeEach(() => {
-    inMemoryQuestionsRepo = new InMemoryQuestionRepository();
+    inMemoryQuestionAttachsRepo = new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepo = new InMemoryQuestionRepository(
+      inMemoryQuestionAttachsRepo
+    );
     sut = new KnowQuestionBySlugService(inMemoryQuestionsRepo);
   });
 
@@ -15,8 +20,6 @@ describe("Know Question By Slug", () => {
     const testQuestion = makeQuestion({
       title: "Example Question",
     });
-
-    console.log(testQuestion);
 
     await inMemoryQuestionsRepo.create(testQuestion);
 
