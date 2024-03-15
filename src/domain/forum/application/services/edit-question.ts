@@ -62,9 +62,9 @@ export class EditQuestionService {
 
     questionAttachmentList.update(updatedQuestionAttachments);
 
+    question.attachments = questionAttachmentList;
     question.title = title;
     question.content = content;
-    question.attachments = questionAttachmentList;
 
     await this.questionRepo.update(question);
 

@@ -7,15 +7,25 @@ import { InMemoryQuestionRepository } from "test/repositories/in-memory-question
 import { ChooseBestAnswerService } from "./choose-best-answer";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
 import { NotAllowedError } from "./errors/not-allowed-error";
+import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository";
+import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository";
 
+let inMemoryAnswerAttachsRepo: InMemoryAnswerAttachmentsRepository;
+let inMemoryQuestionAttachsRepo: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepo: InMemoryQuestionRepository;
 let inMemoryAnswersRepo: InMemoryAnswersRepository;
 let sut: ChooseBestAnswerService;
 
 describe("Choose Best Answer", () => {
   beforeEach(() => {
-    inMemoryQuestionsRepo = new InMemoryQuestionRepository();
-    inMemoryAnswersRepo = new InMemoryAnswersRepository();
+    inMemoryAnswerAttachsRepo = new InMemoryAnswerAttachmentsRepository();
+    inMemoryQuestionAttachsRepo = new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepo = new InMemoryQuestionRepository(
+      inMemoryQuestionAttachsRepo
+    );
+    inMemoryAnswersRepo = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachsRepo
+    );
 
     sut = new ChooseBestAnswerService(
       inMemoryQuestionsRepo,

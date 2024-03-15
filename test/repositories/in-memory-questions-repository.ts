@@ -23,7 +23,7 @@ export class InMemoryQuestionRepository implements QuestionsRepository {
 
     this.items.splice(itemIndex, 1);
 
-    this.questionAttachsRepo.deleteManyByQyestionId(question.id.toString());
+    this.questionAttachsRepo.deleteManyByQuestionId(question.id.toString());
   }
 
   async findById(id: string) {
