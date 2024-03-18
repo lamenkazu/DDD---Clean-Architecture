@@ -3,13 +3,13 @@ import { Either, right } from "@/core/either";
 import { Notification } from "../../enterprise/entities/notification";
 import { NotificationsRepository } from "../repositories/notifications-repository";
 
-interface SendNotificationServiceRequest {
+export interface SendNotificationServiceRequest {
   recipientId: string;
   title: string;
   content: string;
 }
 
-type SendNotificationServiceResponse = Either<
+export type SendNotificationServiceResponse = Either<
   null,
   {
     notification: Notification;
